@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'quiz_page.dart'; // Voltar para o quiz
+import 'quiz_page.dart';
+import 'fundo_com_imagem.dart';
 
 class TelaResultado extends StatelessWidget {
   final int pontuacao;
@@ -7,33 +8,38 @@ class TelaResultado extends StatelessWidget {
 
   TelaResultado({required this.pontuacao, required this.total});
 
+  String gerarMensagem() {
+    if (pontuacao == 0) {
+      return 'Você não acertou nenhuma... Acho que está na hora de rever o filme!';
+    } else if (pontuacao <= total ~/ 2) {
+      return 'Você acertou $pontuacao de $total. Você sabe um pouco sobre Toy Story!';
+    } else if (pontuacao >= total - 1) {
+      return 'Parabéns! Você acertou $pontuacao de $total. Você é fã de verdade!';
+    } else {
+      return 'Muito bem! Você acertou $pontuacao de $total. Quase um expert!';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 54, 197, 154),
+        backgroundColor: const Color.fromARGB(255, 16, 161, 245),
         title: Text('Resultado'),
       ),
-      body: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('lib/assets/fundo_quiz.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Center(
+      body: FundoComImagem(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Você acertou $pontuacao de $total perguntas!',
-                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+                  gerarMensagem(),
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -42,16 +48,16 @@ class TelaResultado extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 54, 197, 154),
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    backgroundColor: const Color.fromARGB(255, 16, 161, 245),
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                   ),
-                  child: Text('Reiniciar Quiz'),
+                  child: const Text('Reiniciar Quiz', style: TextStyle(fontSize: 18)),
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
