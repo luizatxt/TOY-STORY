@@ -71,6 +71,8 @@ class _TelaQuizState extends State<TelaQuiz> {
 
   @override
   Widget build(BuildContext context) {
+    final pergunta = perguntas[perguntaAtual];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 16, 161, 245),
@@ -88,13 +90,19 @@ class _TelaQuizState extends State<TelaQuiz> {
                       style: TextStyle(fontSize: 18, color: Colors.red),
                     ),
                     SizedBox(height: 20),
+                    Image.asset(
+                      pergunta.imagem,
+                      height: 180,
+                      fit: BoxFit.contain,
+                    ),
+                    SizedBox(height: 20),
                     Text(
-                      perguntas[perguntaAtual].texto,
+                      pergunta.texto,
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 30),
-                    ...perguntas[perguntaAtual].respostas.map((resposta) {
+                    ...pergunta.respostas.map((resposta) {
                       return Container(
                         width: double.infinity,
                         margin: const EdgeInsets.only(bottom: 12),
@@ -117,3 +125,4 @@ class _TelaQuizState extends State<TelaQuiz> {
     );
   }
 }
+
