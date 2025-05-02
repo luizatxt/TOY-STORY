@@ -90,10 +90,12 @@ class _TelaQuizState extends State<TelaQuiz> {
                       style: TextStyle(fontSize: 18, color: Colors.red),
                     ),
                     SizedBox(height: 20),
-                    Image.asset(
-                      pergunta.imagem,
-                      height: 180,
-                      fit: BoxFit.contain,
+                    Center(
+                      child: Image.asset(
+                        pergunta.imagem,
+                        height: 180,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                     SizedBox(height: 20),
                     Text(
@@ -125,4 +127,3 @@ class _TelaQuizState extends State<TelaQuiz> {
     );
   }
 }
-
