@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'quiz_page.dart';
-import 'fundo_com_imagem.dart';
+import 'quiz_page.dart';  // A tela do quiz
+import 'main.dart';  // Importando TelaInicial
 
 class TelaResultado extends StatelessWidget {
   final int pontuacao;
@@ -23,41 +23,60 @@ class TelaResultado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 16, 161, 245),
-        title: Text('Resultado'),
-      ),
-      body: FundoComImagem(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  gerarMensagem(),
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 30),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => TelaQuiz()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 16, 161, 245),
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'lib/assets/fundo.jpg',
+            fit: BoxFit.cover,
+          ),
+          Container(color: Colors.black.withOpacity(0.3)),
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    gerarMensagem(),
+                    style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                    textAlign: TextAlign.center,
                   ),
-                  child: const Text('Reiniciar Quiz', style: TextStyle(fontSize: 18)),
-                ),
-              ],
+                  const SizedBox(height: 30),
+                  Text(
+                    'Sua pontuação: $pontuacao/$total',
+                    style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.yellowAccent),
+                  ),
+                  const SizedBox(height: 30),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Alteração aqui para voltar à tela inicial
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => TelaInicial()), 
+                        (route) => false,  // Remove todas as rotas anteriores
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 255, 223, 0),
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
+                    ),
+                    child: const Text('Voltar à Tela Inicial',
+                        style: TextStyle(fontSize: 18)),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

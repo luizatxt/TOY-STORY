@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'result_page.dart';
 import 'perguntas_page.dart';
-import 'fundo_com_imagem.dart';
 
 class TelaQuiz extends StatefulWidget {
   @override
@@ -78,51 +77,55 @@ class _TelaQuizState extends State<TelaQuiz> {
         backgroundColor: Color.fromARGB(255, 16, 161, 245),
         title: Text('Quiz Toy Story'),
       ),
-      body: FundoComImagem(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: perguntaAtual < perguntas.length
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Tempo restante: $tempoRestante s',
-                      style: TextStyle(fontSize: 18, color: Colors.red),
-                    ),
-                    SizedBox(height: 20),
-                    Center(
-                      child: Image.asset(
-                        pergunta.imagem,
-                        height: 180,
-                        fit: BoxFit.contain,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'lib/assets/fundo.jpg',
+            fit: BoxFit.cover,
+          ),
+          Container(color: Colors.black.withOpacity(0.3)),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Tempo restante: $tempoRestante s',
+                  style: TextStyle(fontSize: 18, color: Colors.red),
+                ),
+                SizedBox(height: 20),
+                Image.asset(
+                  pergunta.imagem,
+                  height: 180,
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(height: 20),
+                Text(
+                  pergunta.texto,
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 30),
+                ...pergunta.respostas.map((resposta) {
+                  return Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(bottom: 12),
+                    child: ElevatedButton(
+                      onPressed: () => responder(resposta),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 255, 223, 0),
+                        foregroundColor: Colors.black,
+                        padding: EdgeInsets.symmetric(vertical: 16),
                       ),
+                      child: Text(resposta, style: TextStyle(fontSize: 18)),
                     ),
-                    SizedBox(height: 20),
-                    Text(
-                      pergunta.texto,
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 30),
-                    ...pergunta.respostas.map((resposta) {
-                      return Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.only(bottom: 12),
-                        child: ElevatedButton(
-                          onPressed: () => responder(resposta),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 16, 161, 245),
-                            foregroundColor: Colors.black,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                          ),
-                          child: Text(resposta, style: TextStyle(fontSize: 18)),
-                        ),
-                      );
-                    }).toList(),
-                  ],
-                )
-              : CircularProgressIndicator(),
-        ),
+                  );
+                }).toList(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
